@@ -5,6 +5,7 @@ import random
 
 from tqdm import tqdm
 from redis import Redis
+from math import factorial
 
 parts = {
     'knowledgeable',
@@ -115,10 +116,12 @@ delimiters = ':/'
 
 redis = Redis('0.0.0.0', 7000)
 pipe = redis.pipeline()
-key_comb = combinations(parts, 3)
+comb_len = 3
+key_comb = combinations(parts, comb_len)
+comb_count = factorial(len(parts)) // factorial(min(len(parts) - comb_len, 1))
 
-print(f'preparing a pipe of ')
-for i in tqdm(range(1000 * 1000)):
+print(f'preparing a pipe of ')  # зачем здесь f''?
+for i in tqdm(comb_count):
     try:
         comb = next(key_comb)
     except StopIteration:
@@ -154,8 +157,6 @@ for i in tqdm(range(1000 * 1000)):
     # key
     pipe.set(key_, 'here i am')
 
-
 print('executing a pipe of 1kk')
 res = pipe.execute()
 print('done')
-

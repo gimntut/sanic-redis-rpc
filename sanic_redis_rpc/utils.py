@@ -46,7 +46,10 @@ def coerce_str_to_bool(val: t.Union[str, int, bool, None], strict: bool = False)
 
 
 def parse_redis_dsn(raw_str: str = 'redis://localhost:6379') -> t.Dict[str, t.Any]:
-    _, opts = parse_url(raw_str)
+    # _, opts = parse_url(raw_str)
+    # Не стоит использовать имена переменных _ и __. У них особое назначение
+    # Так же нет смысла заводить переменную, которая не будет использоваться
+    opts = parse_url(raw_str)[1]
     opts.setdefault('db', 0)
     parsed = furl(raw_str)
 

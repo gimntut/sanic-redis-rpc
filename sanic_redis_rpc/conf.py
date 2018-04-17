@@ -56,5 +56,8 @@ def configure(app: Sanic, env: t.Optional[t.Dict[str, str]] = None, verbose: boo
 
     app.config.redis_connections_options = read_redis_config_from_env(env)
 
-    verbose and display_config(app.config)
+    # verbose and display_config(app.config)
+    # Явное лучше неявного
+    if verbose:
+        display_config(app.config)
     return app
